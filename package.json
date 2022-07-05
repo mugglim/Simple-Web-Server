@@ -1,0 +1,15 @@
+{
+    "name": "simple-tcp-socket",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "server": "node ./server/server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "dotenv": "^16.0.1"
+    }
+}
