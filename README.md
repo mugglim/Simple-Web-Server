@@ -12,7 +12,7 @@ Simple Web Server with Node.js for studying TCP Socket.
 npm install
 ```
 
-### 2) Set Enviroment variables
+### 2) Set environment variables
 
 ```bash
 # /.env
@@ -20,7 +20,7 @@ SERVER_IP=<your-server-socket-ip>       # default: 127.0.0.1
 SERVER_PORT=<your-server-socket-port>   # default: 80
 ```
 
-### 3) Run server socket and client socket
+### 3) Run server socket
 
 ```bash
 npm run server
