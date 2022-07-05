@@ -14,6 +14,10 @@ const server = net.createServer();
 // (2) bind() and listen() and accept() waiting client .....
 server.listen(SERVER_PORT, SERVER_IP);
 
+server.on('listening', () => {
+    console.log(`Server is listening on ${SERVER_IP}:${SERVER_PORT}`);
+});
+
 // (3) connect() from client
 server.on('connection', clientSocket => {
     clientSocket.on('data', async data => {
