@@ -23,7 +23,7 @@ server.on('connection', clientSocket => {
     clientSocket.on('data', async data => {
         const requestHeader = data.toString('utf-8');
         const [method, requestURI, httpVersion] = requestHeader
-            .split('\n')[0]
+            .split('\r\n')[0]
             .split(' ');
 
         const filePath = parseURI({ PUBLIC_PATH, requestURI });
@@ -33,17 +33,18 @@ server.on('connection', clientSocket => {
 
         const messageBody = error ? '' : content;
         const reponseStatus = error ? '404' : '200';
-
-        clientSocket.bytesWritten;
+        const contentLength = content.length;
 
         const responseHeader = [
             `${httpVersion} ${reponseStatus} ${STATUS_CODES[reponseStatus]}`,
             `Content-Type: ${MIME_TYPES[extname]}`,
+            `Content-Length : ${contentLength}`,
             'Connection: keep-alive',
             '',
-            `${messageBody}`,
+            '',
         ].join('\r\n');
 
+        clientSocket.write(responseHeader);
         clientSocket.write(messageBody);
         clientSocket.end();
     });
