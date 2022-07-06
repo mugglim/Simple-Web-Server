@@ -1,8 +1,4 @@
-const parseURI = ({ PUBLIC_PATH, requestURI }) =>
+export const parseURI = ({ PUBLIC_PATH, requestURI }) =>
     requestURI === '/'
         ? `${PUBLIC_PATH}/index.html`
-        : `${PUBLIC_PATH}/${requestURI}`;
-
-module.exports = {
-    parseURI,
-};
+        : `${PUBLIC_PATH}${requestURI}`;

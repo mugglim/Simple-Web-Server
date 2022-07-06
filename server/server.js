@@ -1,12 +1,15 @@
-const fs = require('fs').promises;
-const net = require('net');
-const path = require('path');
-const { SERVER_IP, SERVER_PORT } = require('dotenv').config().parsed;
-const { MIME_TYPES, STATUS_CODES } = require('./constants/http.js');
-const { readFile } = require('./utils/file.js');
-const { parseURI } = require('./utils/http.js');
+import net from 'net';
+import dotenv from 'dotenv';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const PUBLIC_PATH = `${__dirname}/public`;
+import { readFile, getExtName } from './utils/file.js';
+import { parseURI } from './utils/http.js';
+import { MIME_TYPES, STATUS_CODES } from './constants/http.js';
+
+const { SERVER_IP, SERVER_PORT } = dotenv.config().parsed;
+const DIR_NAME = dirname(fileURLToPath(import.meta.url));
+const PUBLIC_PATH = `${DIR_NAME}/public`;
 
 // (1) socket()
 const server = net.createServer();
@@ -27,14 +30,14 @@ server.on('connection', clientSocket => {
             .split(' ');
 
         const filePath = parseURI({ PUBLIC_PATH, requestURI });
-        const extname = path.extname(filePath).toLocaleLowerCase();
+        const extname = getExtName(filePath);
 
         const { error, content } = await readFile(filePath);
 
         const [messageBody, reponseStatus] = error
             ? ['', '404']
             : [content, '200'];
-        const contentLength = content.length;
+        const contentLength = content ? content.length : '0';
 
         const headers = [
             `${httpVersion} ${reponseStatus} ${STATUS_CODES[reponseStatus]}`,

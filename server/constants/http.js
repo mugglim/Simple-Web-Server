@@ -1,4 +1,4 @@
-const MIME_TYPES = {
+export const MIME_TYPES = {
     '.html': 'text/html',
     '.js': 'text/javascript',
     '.css': 'text/css',
@@ -16,7 +16,7 @@ const MIME_TYPES = {
     '.wasm': 'application/wasm',
 };
 
-const STATUS_CODES = {
+export const STATUS_CODES = {
     100: 'Continue',
     101: 'Switching Protocols',
     102: 'Processing',
@@ -80,9 +80,4 @@ const STATUS_CODES = {
     509: 'Bandwidth Limit Exceeded',
     510: 'Not Extended',
     511: 'Network Authentication Required',
-};
-
-module.exports = {
-    MIME_TYPES,
-    STATUS_CODES,
 };
