@@ -31,11 +31,12 @@ server.on('connection', clientSocket => {
 
         const { error, content } = await readFile(filePath);
 
-        const messageBody = error ? '' : content;
-        const reponseStatus = error ? '404' : '200';
+        const [messageBody, reponseStatus] = error
+            ? ['', '404']
+            : [content, '200'];
         const contentLength = content.length;
 
-        const responseHeader = [
+        const headers = [
             `${httpVersion} ${reponseStatus} ${STATUS_CODES[reponseStatus]}`,
             `Content-Type: ${MIME_TYPES[extname]}`,
             `Content-Length : ${contentLength}`,
@@ -44,8 +45,9 @@ server.on('connection', clientSocket => {
             '',
         ].join('\r\n');
 
-        clientSocket.write(responseHeader);
-        clientSocket.write(messageBody);
+        const response = Buffer.concat([Buffer.from(headers), messageBody]);
+
+        clientSocket.write(response);
         clientSocket.end();
     });
 });
